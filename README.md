@@ -32,7 +32,10 @@ First, lets look at the overall distribution of diabetes rates in US counties:
 
 ![](figs/diabetes_hist.png)
 
-We can see that diabetes rates vary over a large range, with some counties as low as ~4%, and others as high as ~18%, with the bulk of the counties falling between about 7-11%. Interestingly, we don't have symmetrical distribution - the peak is at about 8%, and there is a standard bell curve fall off to the right, but a much sharper drop to the left. That is, very few counties have less than ~7% diabetes. 
+Mean: 8.7% 
+Standard Deviation: 1.8%
+
+We can see that diabetes rates vary over a large range, with some counties as low as ~4%, and others as high as ~18%, with the bulk of the counties falling between about 6-12%. Interestingly, we don't have symmetrical distribution - the peak is at about 7%, and there is a standard bell curve fall off to the right, but a much sharper drop to the left. That is, very few counties have less than ~7% diabetes. 
 
 Lets take a look at the counties with the highest and lowest diabetes rates:
 
@@ -42,12 +45,53 @@ Interesting - it looks like southern and midwest counties make up the bulk of th
 
 ![](figs/diabetes_full_bar.png)
 
-Again, we see more blue and now some green toward the left, indicating that western and northeastern counties have lower diabetes rates, while we see more red to the right, indicating that southern counties have higher diabetes rates.
+Again, we see more blue and now some purple toward the left, indicating that western and northeastern counties have lower diabetes rates, while we see more red to the right, indicating that southern counties have higher diabetes rates. Gray (midwestern) counties are sprinkled fairly uniformly throughout.
 
 ## Feature selection for modeling
 
-
+Now let's explore our other features and how they relate to diagnosed diabetes percentage. As a first pass, we can plot all variables against diagnosed diabetes percentage: 
 
 ![](figs/diabetes_scatter.png)
 
+From this plot, we can see some variables that are likely to be useful. Obesity percentage and physical inactivity percentage correlate fairly well with diabetes rates. To a lesser degree, we can see correlations for EP_POV (the percentage of people living in below the poverty line), EP_UNEMP (percentage unemployed), EP_NOHSDP (percentage with no high school diploma), and E_PCI (estimated per capita income, a negative correlation in this case).  
 
+The fourth row of the plot (and the first plot of the 5th row) features various racial demographics. It is much less clear whether any of these will be useful in the regression. There does seem to be a very slight negative correlation with NHWA_PCT (non-hispanic white alone percent) and a slight positive correlation with NHBA_PCT (non-hispanic black alone percent), so these may be worth including. There is a fairly strong positive correlation with NHIA_PCT (non-hispanic american indian and alaskan native percent), however a fairly low number of counties have a high percentage.
+
+In the bottom row, we see the same pattern from the bar graphs above. A negative correlation between diabetes percentage and a county being in the northeast or west, and a positive correlation between diabetes percentage and a county being in the south or midwest. 
+
+We have some candidate variables to use and not use based on this analysis. Now lets start testing some models!
+
+# Modeling Diabetes Rates
+
+Our first step is to split the data into test and train sets. I did an 80:20 Train:Test split. From here on, until we have a final model, we will be working exlusively with the training set, and saving the final test set for the end. From this point on, when I refer to a training set, it will really be training set within this initial training set.
+
+## Baseline Model
+
+First, we will generate a "dumb" model to serve as a baseline to compare to our other models. Our dumb model will be to simply use the mean of our diabetes rates as an estimate.
+
+### Mean of Training Set = 0.087 (8.7% diabetes)
+
+## Baseline model error
+
+We will use root mean squared error (RMSE) as our error metric. A function to calculate RMSE is in the python file error.py
+
+![](figs/initial_error.png)
+
+### Baseline error = 0.0177
+
+Perhaps a more fair comparison is to use KFold cross validation even on this model. We will do so with a K of 6.
+
+![](figs/kf_dumb_error.png)
+
+### Real baseline error = 0.018
+
+Because we are using RMSE, we can actually interpret this value. On average, our predicted values differ from our real values by about 0.018, or 1.8 percent (remember, we are predicting a percentage). This might not sound bad, but recall that most of our values fall within 1-2% of the mean: 
+
+![](figs/diabetes_hist.png)
+
+As a matter of fact, our RMSE for our dumb model is equivalent to our sample standard deviation (1.8%), as we should expect for a model that uses the mean.
+
+
+## Simple Linear Regression
+
+Let's build in complexity towards our final model. The next most basic approach is to use a simple linear regression. 
