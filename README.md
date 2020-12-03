@@ -182,7 +182,7 @@ Lasso model with a range of alphas:
 
 Minimum RMSE: 0.0104 
 
-A lasso using all features hits a minimum RMSE score of 0.0104, which is worse than the poisson regression. This makes some sense, as the poisson regression uses the appropriate distribution while lasso is expecting a normal distribution. A model that combines the two might be idea, but that is out of the scope of this project. 
+A lasso using all features hits a minimum RMSE score of 0.0104, which is worse than the poisson regression. This makes some sense, as the poisson regression uses the appropriate distribution while lasso is expecting a normal distribution. A model that combines the two (poisson distribution with lasso) might work better, but that is out of the scope of this project. 
 
 ## Ridge
 
