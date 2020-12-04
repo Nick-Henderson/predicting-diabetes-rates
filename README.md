@@ -182,7 +182,7 @@ Lasso model with a range of alphas:
 
 Minimum RMSE: 0.0104 
 
-A lasso using all features hits a minimum RMSE score of 0.0104, which is worse than the poisson regression. This makes some sense, as the poisson regression uses the appropriate distribution while lasso is expecting a normal distribution. A model that combines the two might be idea, but that is out of the scope of this project. 
+A lasso using all features hits a minimum RMSE score of 0.0104, which is worse than the poisson regression. This makes some sense, as the poisson regression uses the appropriate distribution while lasso is expecting a normal distribution. A model that combines the two (poisson distribution with lasso) might work better, but that is out of the scope of this project. 
 
 ## Ridge
 
@@ -198,7 +198,7 @@ Similar to the lasso, even using all 25 features and an optimal alpha, the ridge
 
 Final model testing is in the jupyter notebook Final_Model.ipynb
 
-Finally, using the training and test sets generated at the beginning of the project, we can test the final poisson model
+Using the training and test sets generated at the beginning of the project, we can test the final poisson model
 
 ## Model: PoissonRegressor, alpha = 0
 ## Features used: 
@@ -224,7 +224,7 @@ My exploratory data analysis generated some interesting conclusions. I found tha
 
 In the modeling phase, I found that a poisson regression was the best model for this dataset. This makes sense given that I was predicting a proportion. I found that more complex models like random forest, ridge, and lasso did not perform substantially better than the regression on this dataset. 
 
-By iterating through all features and adding the best features to the model one-by-one, I was able to determine the most useful features in predicting diabetes rates. I was surprised to find that physical inactivity - not obesity - was the most importand factor, and even more surprised to find that percent unemployment was ahead of obesity as well. 
+By iterating through all features and adding the best features to the model one-by-one, I was able to determine the most useful features in predicting diabetes rates. I was surprised to find that physical inactivity - not obesity - was the most important factor, and even more surprised to find that percent unemployment was ahead of obesity as well. 
 
 Interestingly, per capita income was only 7th most important, while unemployment was 2nd, implying that your diabetes risk is affected more by having a job at all than by making a lot of money.
 
