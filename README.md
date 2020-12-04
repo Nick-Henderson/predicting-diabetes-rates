@@ -214,7 +214,7 @@ Using the training and test sets generated at the beginning of the project, we c
 
 Baseline(mean) model RMSE: 0.0175
 
-Final model RMSE: 0.0104
+Final model RMSE: 0.0106
 
 ![](figs/final_residuals.png)
 
